@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div style="padding: 20px">
+        <button class="btn btn-primary" onclick="year()">Enter Year</button>
+        <h2>Year</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th colspan="8" style="text-align: center">
+                Year <span id="year"></span>
+              </th>
+            </tr>
+            <tr>
+              <th>Day/Date</th>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody id="dates"></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  function year() {
+    parent = document.getElementById("dates");
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+    var arr = new Array();
+    var year = prompt("Enter a year", "");
+    if (year != "") {
+      document.getElementById("year").innerHTML = year;
+      var date_d, date_m;
+      for (var i = 1; i < 32; i++) {
+        var counter_sun = 0;
+        var counter_mon = 0;
+        var counter_tue = 0;
+        var counter_wed = 0;
+        var counter_thu = 0;
+        var counter_fri = 0;
+        var counter_sat = 0;
+        for (var m = 1; m < 13; m++) {
+          date_m = new Date(parseInt(year), m, 0);
+          for (var d = 1; d < date_m.getDate() + 1; d++) {
+            date_d = new Date(parseInt(year), date_m.getMonth(), d);
+            if (d == i) {
+              if (date_d.getDay() === 0) {
+                counter_sun += 1;
+              }
+              if (date_d.getDay() === 1) {
+                counter_mon += 1;
+              }
+              if (date_d.getDay() === 2) {
+                counter_tue += 1;
+              }
+              if (date_d.getDay() === 3) {
+                counter_wed += 1;
+              }
+              if (date_d.getDay() === 4) {
+                counter_thu += 1;
+              }
+              if (date_d.getDay() === 5) {
+                counter_fri += 1;
+              }
+              if (date_d.getDay() === 6) {
+                counter_sat += 1;
+              }
+            }
+          }
+        }
+        var obj = {
+          sun: counter_sun,
+          mon: counter_mon,
+          tue: counter_tue,
+          wed: counter_wed,
+          thu: counter_thu,
+          fri: counter_fri,
+          sat: counter_sat,
+        };
+
+        arr.push(obj);
+      }
+      console.log(arr);
+    }
+
+    //genrate table
+    var total_sun = 0;
+    var total_mon = 0;
+    var total_tue = 0;
+    var total_wed = 0;
+    var total_thu = 0;
+    var total_fri = 0;
+    var total_sat = 0;
+    let tbody = document.getElementById("dates");
+    for (var j = 0; j < arr.length + 1; j++) {
+      let tr = document.createElement("tr");
+
+      let td0 = document.createElement("td");
+      let td1 = document.createElement("td");
+      let td2 = document.createElement("td");
+      let td3 = document.createElement("td");
+      let td4 = document.createElement("td");
+      let td5 = document.createElement("td");
+      let td6 = document.createElement("td");
+      let td7 = document.createElement("td");
+
+      if (j == 31) {
+        var cell0 = document.createTextNode("Total");
+        var cell1 = document.createTextNode(total_sun);
+        var cell2 = document.createTextNode(total_mon);
+        var cell3 = document.createTextNode(total_tue);
+        var cell4 = document.createTextNode(total_wed);
+        var cell5 = document.createTextNode(total_thu);
+        var cell6 = document.createTextNode(total_fri);
+        var cell7 = document.createTextNode(total_sat);
+      } else {
+        total_sun = total_sun + arr[j].sun;
+        total_mon = total_mon + arr[j].mon;
+        total_tue = total_tue + arr[j].tue;
+        total_wed = total_wed + arr[j].wed;
+        total_thu = total_thu + arr[j].thu;
+        total_fri = total_fri + arr[j].fri;
+        total_sat = total_sat + arr[j].sat;
+
+        var cell0 = document.createTextNode(j + 1);
+        var cell1 = document.createTextNode(arr[j].sun);
+        var cell2 = document.createTextNode(arr[j].mon);
+        var cell3 = document.createTextNode(arr[j].tue);
+        var cell4 = document.createTextNode(arr[j].wed);
+        var cell5 = document.createTextNode(arr[j].thu);
+        var cell6 = document.createTextNode(arr[j].fri);
+        var cell7 = document.createTextNode(arr[j].sat);
+      }
+
+      td0.appendChild(cell0);
+      td1.appendChild(cell1);
+      td2.appendChild(cell2);
+      td3.appendChild(cell3);
+      td4.appendChild(cell4);
+      td5.appendChild(cell5);
+      td6.appendChild(cell6);
+      td7.appendChild(cell7);
+
+      tr.appendChild(td0);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tr.appendChild(td4);
+      tr.appendChild(td5);
+      tr.appendChild(td6);
+      tr.appendChild(td7);
+
+      tbody.appendChild(tr);
+    }
+  }
+</script>
